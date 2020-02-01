@@ -18,10 +18,17 @@ int main()
         keyarr[i]=key[i]-97;
     }
     cout<<"Enter Message to be encrypted: ";
-    cin>>pt;
+    getline(cin,pt);
+    getline(cin,pt);
     lenm=pt.length();
+    k=0;
     For(i,lenm){
-        ct.push_back((pt[i]-97+keyarr[i%lenk])%26+97);
+        if(pt[i]==' '){
+            ct.push_back(95);
+        }else{
+            ct.push_back((pt[i]-97+keyarr[k%lenk])%26+97);
+            k++;
+        }
     }
     cout<<"The message after Substitution Cipher is: "<< ct<<endl;
     
@@ -52,13 +59,15 @@ int main()
     }
     cout<<"\nDecrypted Message is: ";
     k=0;
+    t=0;
     For(i,row){
         For(j,5){
-            if(tr[i][j]=='_')
-                continue;
+            if(tr[i][j]=='_'){
+                pt[k++]=' ';
+            }
             else{
-                pt[k]=(tr[i][j]-97-keyarr[k%lenk]+26)%26+97;
-                ++k;
+                pt[k++]=(tr[i][j]-97-keyarr[t%lenk]+26)%26+97;
+                t++;
             }
         }
     }
