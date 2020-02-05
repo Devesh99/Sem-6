@@ -22,6 +22,14 @@ int modInverse(int a, int m)
        if ((a*x) % m == 1) 
           return x; 
 } 
+int poww(int a,int b,int n){
+	int res=1;
+	while(b){
+		res=(res*a)%n;
+		b--;
+	}
+	return res;
+}
 
 int main(){
     //freopen("input.txt", "r", stdin);
@@ -37,7 +45,7 @@ int main(){
     for(i=2;i*i<phi;++i){
         j=gcd(i,phi);
         if(j==1){
-            e=j;
+            e=i;
             break;
         }
     }deb(e);
@@ -47,12 +55,22 @@ int main(){
     cout<<"Enter message string: ";
     cin>>m;
     
-    string c=m;
+    string c;
+	string z;
+	int xy;
+	cout<<"Encrypted Message is: ";
     for(i=0;i<m.length();++i){
-        c[i]=pow(m[i]-96,e);
-        c[i]%=n;
-        cout<<c[i];
+        xy=poww(m[i]-96,e,n);
+
+        c+=xy;
+	cout<<xy<<' ';
     }
+	cout<<"\nDecrypted Message is: ";
+	for(i=0;i<c.length();++i){
+		xy=poww(c[i],d,n);
+		z+=(xy+96);
+	}
+	cout<<z<<endl;
     
     return 0;
 }
