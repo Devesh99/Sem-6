@@ -1,0 +1,122 @@
+#include <bits/stdc++.h> 
+using namespace std; 
+  
+struct MDT{
+    int index;
+    string defn;
+};
+
+struct ALA{
+    int ind;
+    string args;
+};
+
+ALA a[10];
+MDT m[10];
+int ap=0;
+int mp=0;
+void pass1(string d,string arg){
+    a[ap++].ind=0;
+    a[ap].args=arg;
+    string s,word;
+    int index=0;
+    int i,flag;
+    flag=0;
+    string s1,s2,s3;
+    while(s3!="ENDM"){
+        cin>>s1>>s2>>s3;
+        m[mp].index=index;
+        getline(cin,s);
+        if(s=="ENDM")
+            break;
+        for (i=0;i<s.length();++i) 
+        { 
+           if (s[i] == ' '||i==s.length()-1) 
+           {
+               if(word=="ENDM"){
+                    flag=1;
+                    break;
+               }
+               if(word==arg){
+                   word="";
+                   word+="#";
+                   word=to_string(index);
+                   i++;
+                   while(s[i]!='\n'){
+                       word+=s[i];
+                   }
+               }
+               m[mp].defn+=word;
+               word="";
+           } 
+           else
+           { 
+               word+=s[i]; 
+           } 
+       }
+       if(flag)
+            break;
+       index++;
+       mp++;
+    }
+}
+
+int main() 
+{ 
+    freopen("sample.asm", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    int i,j,k,l,flag=0;
+    string s3,s1,s2,def;
+    
+    while(s1!="end"){
+        cin>>s1>>s2>>s3;
+        string word = "";
+        if(s2=="macro"){
+            pass1(s1,s3);
+        }
+       for (i=0;i<s.length();++i) 
+       { 
+           if (s[i] == ' '||i==s.length()-1) 
+           {
+               if(word=="end"){
+                   flag=1;
+                   break;
+               }
+               if(word=="MACRO"){
+                   word = "";
+                   i++;
+                   while(s[i]!='\n'){
+                       word+=s[i];
+                   }
+                   pass1(s2,word);
+               }
+               s2=word;
+               word="";
+           } 
+           else
+           { 
+               word = word + s[i]; 
+           } 
+       }
+       if(flag)
+        break;
+    }
+    return 0; 
+} 
+
+//input
+. model small
+. . data
+M1 DB "WELCOME$"
+M2 DB "TCET$"
+. . code 
+Disp macro XX
+MOV AH, 09
+Lea DX, XX
+INT 21 H
+. . ENDM
+. . startup
+. Disp M1
+. Disp M2
+. . exit
+end
