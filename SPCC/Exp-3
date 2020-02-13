@@ -15,108 +15,111 @@ ALA a[10];
 MDT m[10];
 int ap=0;
 int mp=0;
-void pass1(string d,string arg){
-    a[ap++].ind=0;
-    a[ap].args=arg;
+void pass1(string mn){
     string s,word;
     int index=0;
     int i,flag;
+    string arg;
+    
+    m[mp].index=index;
+    m[mp].defn=mn;
+    m[mp].defn+=" &arg1";
+    mp++;
+    index++;
+
+    cin>>arg;
+    a[ap].ind=0;
+    a[ap++].args=mn;
+    cout <<arg;
+    
     flag=0;
     string s1,s2,s3;
-    while(s3!="ENDM"){
-        cin>>s1>>s2>>s3;
-        m[mp].index=index;
-        getline(cin,s);
-        if(s=="ENDM")
-            break;
-        for (i=0;i<s.length();++i) 
-        { 
-           if (s[i] == ' '||i==s.length()-1) 
-           {
-               if(word=="ENDM"){
-                    flag=1;
-                    break;
-               }
-               if(word==arg){
-                   word="";
-                   word+="#";
-                   word=to_string(index);
-                   i++;
-                   while(s[i]!='\n'){
-                       word+=s[i];
-                   }
-               }
-               m[mp].defn+=word;
-               word="";
-           } 
-           else
-           { 
-               word+=s[i]; 
-           } 
-       }
-       if(flag)
-            break;
-       index++;
-       mp++;
+    cin>>s1;
+    cin>>s1;
+    cout<<'\n';
+    while(s1!="ENDM"){
+        cout<<s1<<" ";
+        cin>>s1;
+        if(s1=="/"){
+            m[mp].index=index;
+            index++;
+            mp++;
+            cout<<'\n';
+            cin>>s1;
+        }
+        if(s1==arg){
+            m[mp].defn+=" #1";
+        }
+        else{
+            m[mp].defn+=" ";
+            m[mp].defn+=s1;
+        }
+    }
+    cout<<s1;
+}
+void rep(string s2){
+    for(int i=0;i<mp;++i){
+        cout<<m[i].defn<<'\n';
     }
 }
 
 int main() 
 { 
-    freopen("sample.asm", "r", stdin);
+    freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
-    int i,j,k,l,flag=0;
-    string s3,s1,s2,def;
-    
+    int t,i,n,j;
+    string s1,s2,mname="";
+    cin>>s1;
+    cin>>s1;
     while(s1!="end"){
-        cin>>s1>>s2>>s3;
-        string word = "";
-        if(s2=="macro"){
-            pass1(s1,s3);
+        cout<<s1<<" ";
+        s2=s1;
+        cin>>s1;
+        if(s1=="/"){
+            cout<<'\n';
+            cin>>s1;
         }
-       for (i=0;i<s.length();++i) 
-       { 
-           if (s[i] == ' '||i==s.length()-1) 
-           {
-               if(word=="end"){
-                   flag=1;
-                   break;
-               }
-               if(word=="MACRO"){
-                   word = "";
-                   i++;
-                   while(s[i]!='\n'){
-                       word+=s[i];
-                   }
-                   pass1(s2,word);
-               }
-               s2=word;
-               word="";
-           } 
-           else
-           { 
-               word = word + s[i]; 
-           } 
-       }
-       if(flag)
-        break;
+        if(s1=="macro"){
+            mname=s2;
+            cout<<s1<<" ";
+            pass1(s2);
+            
+            s1=" ";
+        }
+        if(s1==mname){
+            cin>>s2;
+            rep(s2);
+            s1=" ";
+        }
+
+        
+    }
+    cout<<s1;
+    cout<<"\n\nContents of MDT:\nIndex\tMacro Defn\n\n";
+    for(i=0;i<=mp;++i){
+        cout<<m[i].index<<'\t'<<m[i].defn<<'\n';
+    }
+
+    cout<<"\nContents of ALA is:\nIndex\tMacro Name\n";
+    for(i=0;i<=ap;++i){
+        cout<<a[i].ind<<"\t"<<a[i].args<<'\n';
     }
     return 0; 
 } 
 
-//input
-. model small
-. . data
-M1 DB "WELCOME$"
-M2 DB "TCET$"
-. . code 
-Disp macro XX
-MOV AH, 09
-Lea DX, XX
-INT 21 H
-. . ENDM
-. . startup
-. Disp M1
-. Disp M2
-. . exit
-end
+/*Input file
+/ model small
+/ data
+/ M1 DB "WELCOME$"
+/ M2 DB "TCET$"
+/ code 
+/ Disp macro XX
+/ MOV AH, 09
+/ Lea DX, XX
+/ INT 21 H
+/ ENDM
+/ startup
+/ Disp M1
+/ Disp M2
+/ exit
+/ end*/
