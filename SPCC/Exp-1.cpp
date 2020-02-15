@@ -1,4 +1,3 @@
-MAIN.C
 
 #include <stdlib.h>
 #include <ctype.h>
@@ -212,7 +211,7 @@ int main(){
     return 0;
 }
 
-//OUTPUT
+/*OUTPUT
 
                                                                                                                                                
 Symbol Found: #                                                                                                                                  
@@ -244,4 +243,4 @@ Preprocessor Directives are:
 2.] #define                                                                                                                                      
                                                                                                                                                  
 Header Files are:                                                                                                                                
-1.] stdio.h   
+1.] stdio.h   */
